@@ -41,7 +41,7 @@
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
 
-<p> Program: 
+<h3> Program: </h3>
 import random
 import time
 
@@ -193,7 +193,7 @@ if __name__ == "__main__":
         print("Performance:", agent.performance)
         time.sleep(2)
 
-<p> EXPECTED OUTPUT 
+<h3> EXPECTED OUTPUT </h3>
   Status of patients BEFORE treatment:
 {(0, 0): 'healthy', (1, 0): 'unhealthy'}
 Agent Location: (1, 0)
@@ -210,5 +210,5 @@ Status AFTER treatment:
 {(0, 0): 'healthy', (1, 0): 'healthy'}
 Agent Location: (0, 0)
 Performance: 9
-<P> RESULT 
+<h3> RESULT </h3>
 The doctor agent successfully treated patients based on their health status, improving overall patient conditions while incurring movement penalties. The final performance score reflects the efficiency of the agent’s treatment decisions.
