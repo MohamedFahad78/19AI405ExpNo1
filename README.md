@@ -41,157 +41,6 @@
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
 
-<h3> Program: </h3>
-import random
-import time
-
-class Thing:
-    """Represents any physical object in the environment"""
-
-    def is_alive(self):
-        return hasattr(self, "alive") and self.alive
-
-    def show_state(self):
-        print("I don't know how to show_state.")
-
-
-class Agent(Thing):
-    """An Agent is a subclass of Thing"""
-
-    def __init__(self, program=None):
-        self.alive = True
-        self.performance = 0
-        self.program = program
-
-    def can_grab(self, thing):
-        return False
-
-def TableDrivenAgentProgram(table):
-    percepts = []
-
-    def program(percept):
-        percepts.append(percept)
-        return table.get(tuple(percepts), None)
-
-    return program
-
-
-# Room locations
-room_A, room_B = (0, 0), (1, 0)
-
-
-def TableDrivenDoctorAgent():
-    """Table-driven Doctor Agent"""
-
-    table = {
-        ((room_A, "healthy"),): "Right",
-        ((room_A, "unhealthy"),): "treat",
-        ((room_B, "healthy"),): "Left",
-        ((room_B, "unhealthy"),): "treat",
-
-        ((room_A, "unhealthy"), (room_A, "healthy")): "Right",
-        ((room_B, "unhealthy"), (room_B, "healthy")): "Left",
-
-        ((room_A, "healthy"), (room_B, "unhealthy")): "treat",
-        ((room_B, "healthy"), (room_A, "unhealthy")): "treat",
-    }
-
-    return Agent(TableDrivenAgentProgram(table))
-
-
-class Environment:
-    def __init__(self):
-        self.things = []
-        self.agents = []
-
-    def percept(self, agent):
-        raise NotImplementedError
-
-    def execute_action(self, agent, action):
-        raise NotImplementedError
-
-    def default_location(self, thing):
-        return random.choice([room_A, room_B])
-
-    def is_done(self):
-        return not any(agent.is_alive() for agent in self.agents)
-
-    def step(self):
-        if not self.is_done():
-            for agent in self.agents:
-                if agent.alive:
-                    action = agent.program(self.percept(agent))
-                    self.execute_action(agent, action)
-
-    def run(self, steps=1000):
-        for _ in range(steps):
-            if self.is_done():
-                break
-            self.step()
-
-    def add_thing(self, thing, location=None):
-        if not isinstance(thing, Thing):
-            thing = Agent(thing)
-
-        thing.location = location if location else self.default_location(thing)
-        self.things.append(thing)
-
-        if isinstance(thing, Agent):
-            self.agents.append(thing)
-
-
-class TrivialDoctorEnvironment(Environment):
-
-    def __init__(self):
-        super().__init__()
-        self.status = {
-            room_A: random.choice(["healthy", "unhealthy"]),
-            room_B: random.choice(["healthy", "unhealthy"]),
-        }
-
-    def percept(self, agent):
-        return agent.location, self.status[agent.location]
-
-    def execute_action(self, agent, action):
-
-        if action == "Right":
-            agent.location = room_B
-            agent.performance -= 1
-
-        elif action == "Left":
-            agent.location = room_A
-            agent.performance -= 1
-
-        elif action == "treat":
-            temp = float(input("Enter patient temperature: "))
-
-            if temp >= 98.5:
-                print("Medicine prescribed: Paracetamol + low-dose antibiotic")
-            else:
-                print("No medicine needed")
-
-            self.status[agent.location] = "healthy"
-            agent.performance += 10
-if __name__ == "__main__":
-
-    agent = TableDrivenDoctorAgent()
-    environment = TrivialDoctorEnvironment()
-    environment.add_thing(agent)
-
-    print("\nStatus of patients BEFORE treatment:")
-    print(environment.status)
-    print("Agent Location:", agent.location)
-    print("Performance:", agent.performance)
-
-    time.sleep(2)
-
-    for i in range(2):
-        environment.run(steps=1)
-        print("\nStatus AFTER treatment:")
-        print(environment.status)
-        print("Agent Location:", agent.location)
-        print("Performance:", agent.performance)
-        time.sleep(2)
 
 <h3> EXPECTED OUTPUT </h3>
 <p>Status of patients BEFORE treatment: </p>
@@ -201,12 +50,12 @@ Performance: 0
 Enter patient temperature: 36
 No medicine needed
 
-Status AFTER treatment:
+<p>Status AFTER treatment:</p>
 {(0, 0): 'healthy', (1, 0): 'healthy'}
 Agent Location: (1, 0)
 Performance: 10
 
-Status AFTER treatment:
+<p>Status AFTER treatment:</p>
 {(0, 0): 'healthy', (1, 0): 'healthy'}
 Agent Location: (0, 0)
 Performance: 9
