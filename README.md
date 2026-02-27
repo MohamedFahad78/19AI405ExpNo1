@@ -1,6 +1,6 @@
 <h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
-<h3>Name: Hari Karthik S </h3>
-<h3>Register Number:212224080017 </h3>
+<h3>Name: Mohamed Fahad S  </h3>
+<h3>Register Number:212224080037 </h3>
 
 
 <h3>AIM:</h3>
@@ -90,5 +90,6 @@ for step in range(8):
     print(f"Step {step+1}: Action={action} -> {env.status()}")
 
 print("\nFinal Score:", env.performance)
+
 ouput
 <img width="1920" height="757" alt="EXP1AI OP" src="https://github.com/user-attachments/assets/bd94ac4f-3f93-4ab3-81e1-5d7dfa1647b9" />
